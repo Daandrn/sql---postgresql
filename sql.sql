@@ -1,4 +1,4 @@
-CREATE TABLE data_types (
+CREATE TABLE IF NOT EXISTS data_types (
     -- Com exceção de serial, os tipos de dados aceitam NULL
     int2                  smallint, -- 2 bytes | -32768 até +32767 | inteiro de 2 bytes
     int4                       int, -- 4 bytes | -2147483648 até +2147483647 | inteiro de 4 bytes
@@ -77,7 +77,7 @@ CREATE TABLE chave_secundaria_composta (
     nome              text, 
     sobrenome         text, 
 
-    FOREIGN KEY (id1, id2) REFERENCES nome_tabela(id1, id2) -- referenciando a chave primária composta de outra tabela
+    FOREIGN KEY (id1, id2) REFERENCES table_name(id1, id2) -- referenciando a chave primária composta de outra tabela
 );
 
 CREATE TABLE valor_padrao (
@@ -94,10 +94,10 @@ ROLLBACK; -- reverte as alterações feitas numa transação
 
 --------------------------INSERT------------------------------
 
-INSERT INTO acoes_de_chave_estrangeira VALUES (46, 'teste'); -- Necessário iformar VALUES para todas as colunas da tabela
-INSERT INTO valor_padrao (descricao, status) VALUES ('teste outro', false); -- Necessário iformar VALUES apenas para as colunas da tabela citadas
+INSERT INTO acoes_de_chave_estrangeira VALUES (46, 'teste');                             -- Necessário iformar VALUES para todas as colunas da tabela
+INSERT INTO valor_padrao (descricao, status) VALUES ('teste outro', false);              -- Necessário iformar VALUES apenas para as colunas da tabela citadas
 INSERT INTO valor_padrao (descricao, status) SELECT descricao, status FROM valor_padrao; -- realiza inserts a partir do retorno de um select
-INSERT INTO valor_padrao (descricao, status) VALUES -- faz o insert de mais de um valor ao mesmo tempo
+INSERT INTO valor_padrao (descricao, status) VALUES                                      -- faz o insert de mais de um valor ao mesmo tempo
     ('teste 1', true),
     ('teste 2', false),
     ('teste 3', true);
@@ -153,16 +153,16 @@ SELECT * FROM cte_exemplo;
 
 ------------------------UPDATE--------------------------------
 
-UPDATE nome_tabela SET coluna1 = 'teste', coluna2 = valor1 WHERE id = 1; -- atualiza a coluna dos registros conforme filtros
+UPDATE table_name SET coluna1 = 'teste', coluna2 = valor1 WHERE id = 1; -- atualiza a coluna dos registros conforme filtros
 
 BEGIN;
-    SELECT * FROM nome_tabela WHERE condicao FOR UPDATE;                 -- seleciona um registro para ser atualizado (nenhuma outra transacao pode atualizar este registro ate que a transacao atual seja concluida)
-    UPDATE nome_tabela SET coluna = 'valor_novo' WHERE condicao;         -- realiza a atualização do registro
+    SELECT * FROM table_name WHERE condicao FOR UPDATE;                 -- seleciona um registro para ser atualizado (nenhuma outra transacao pode atualizar este registro ate que a transacao atual seja concluida)
+    UPDATE table_name SET column_name = 'valor_novo' WHERE condicao;    -- realiza a atualização do registro
 COMMIT;
 
-UPDATE nome_tabela SET coluna1 = (SELECT coluna FROM outra_tabela WHERE condicao) WHERE id = 1; -- atualiza a coluna dos registros usando subconsultas
+UPDATE table_name SET coluna1 = (SELECT coluna FROM outra_tabela WHERE condicao) WHERE id = 1; -- atualiza a coluna dos registros usando subconsultas
 
-UPDATE nome_tabela
+UPDATE table_name
 SET coluna = CASE -- escolhe o valor a ser atribuido à coluna conforme condições
                 WHEN condicao1 THEN 'valor1'
                 WHEN condicao2 THEN 'valor2'
@@ -211,7 +211,7 @@ SELECT coluna FROM tabela2
 
 CONCAT(val1, val2) -- Concatena duas ou mais strings
 valor1 || valor2   -- Concatena duas ou mais strings
-CONCAT_WS('-', coluna1, coluna2, coluna3)   -- concatena as strings separando-as pela string indicada
+CONCAT_WS('-', coluna1, coluna2, coluna3) -- concatena as strings separando-as pela string indicada
 
 ------------------------CONVERSÃO DE TIPO--------------------------------
 
@@ -224,7 +224,7 @@ valor_string::int         -- converte de string para inteiro
 
 ------------------------OPERAÇÕES COM DATA--------------------------------
 
-EXTRACT(year FROM data_incio) -- extrai o ano de uma data
+EXTRACT(year FROM data_incio)  -- extrai o ano de uma data
 EXTRACT(month FROM data_incio) -- extrai o mês de uma data
 day, hour, minute, second
 
@@ -248,47 +248,83 @@ TO_TIMESTAMP(concat_ws(' ', data_coluna, hora_coluna), 'YYYY-MM-DD H:m:s') -- co
 
 ------------------------FUNÇÕES DE AGREGAÇÃO--------------------------------
 
-COUNT(coluna) -- conta a quantidade na coluna
-COUNT(*)      -- conta a quantidade de registros na tabela
-SUM(coluna)   -- soma os valores da coluna
-AVG(coluna)   -- média dos valores da coluna
-MIN(coluna)   -- valor mininmo da coluna
-MAX(coluna)   -- valor máximo da coluna
+COUNT(column_name) -- conta a quantidade na coluna
+COUNT(*)           -- conta a quantidade de registros na tabela
+SUM(column_name)   -- soma os valores da coluna
+AVG(column_name)   -- média dos valores da coluna
+MIN(column_name)   -- valor mininmo da coluna
+MAX(column_name)   -- valor máximo da coluna
 
 ------------------------LIDANDO COM STRINGS--------------------------------
 
-LENGTH(coluna)   -- conta o tamanho da string
-UPPER(coluna)    -- converte toda string para MAIUSCULO
-LOWER(coluna)    -- converte toda string para minusculo
-TRIM(coluna)     -- remove espaços vazios do inicio e fim da string
-LTRIM(coluna)    -- remove espaços vazios do inicio da string
-RTRIM(coluna)    -- remove espaços vazios do fim da string
-LEFT(coluna, 5)  -- retorna as 5 primeiras posições da string
-LEFT(coluna, 5)  -- retorna as 5 primeiras posições da string
-LEFT(coluna, 5)  -- retorna as 5 primeiras posições da string
-RIGHT(coluna, 3) -- retorna as 3 última posições da string
-LPAD(coluna, 10, '0') -- completa o lado esquerdo da string até o tamanho especificado com a string indicada
-RPAD(coluna, 10, '0') -- completa o lado direito da string até o tamanho especificado com a string indicada
-REPLACE(coluna, 'substring1', 'substring2') -- reescreve parte da string para nov string
-SUBSTRING(coluna FROM posicao_inicial FOR comprimento) -- retorna uma substring a partir da posicao inicial com o tamanho informado
+LENGTH(column_name)   -- conta o tamanho da string
+UPPER(column_name)    -- converte toda string para MAIUSCULO
+LOWER(column_name)    -- converte toda string para minusculo
+TRIM(column_name)     -- remove espaços vazios do inicio e fim da string
+LTRIM(column_name)    -- remove espaços vazios do inicio da string
+RTRIM(column_name)    -- remove espaços vazios do fim da string
+LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
+LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
+LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
+RIGHT(column_name, 3) -- retorna as 3 última posições da string
+LPAD(column_name, 10, '0') -- completa o lado esquerdo da string até o tamanho especificado com a string indicada
+RPAD(column_name, 10, '0') -- completa o lado direito da string até o tamanho especificado com a string indicada
+REPLACE(column_name, 'substring1', 'substring2') -- reescreve parte da string para nov string
+SUBSTRING(column_name FROM posicao_inicial FOR comprimento) -- retorna uma substring a partir da posicao inicial com o tamanho informado
 
 ------------------------OPERADORES DE SUB CONSULTAS--------------------------------
 
-valor > ALL (SELECT coluna FROM tabela)      -- compara valor com todos os resultados da subconsulta
-EXISTS (SELECT 1 FROM tabela WHERE condição) -- verifica se a subconsulta retorna algum resultado
-NOT EXISTS (SELECT 1 FROM tabela WHERE condição) -- verifica se a subconsulta retorna nenhum resultado
+valor > ALL (SELECT column_name FROM table_name)     -- compara valor com todos os resultados da subconsulta
+EXISTS (SELECT 1 FROM table_name WHERE condição)     -- verifica se a subconsulta retorna algum resultado
+NOT EXISTS (SELECT 1 FROM table_name WHERE condição) -- verifica se a subconsulta retorna nenhum resultado
 
 ------------------------LIDANDO COM NULL--------------------------------
 
 coallesce(valor1, valor2, 'padrao') -- retorna o valor padrão caso os parametros informados sejam null
-IFNULL(coluna, 'valor_padrao')      -- retorna o valor padrão caso os parametros informados sejam null
+IFNULL(column_name, 'valor_padrao') -- retorna o valor padrão caso os parametros informados sejam null
 
 ------------------------FUNÇÕES--------------------------------
 
-ROUND(valor, 2) -- faz arredondamento para o numero de casas decimais especificadas
-to_ascii(coluna) -- converte caracateres especiais em caracteres ascII básicos (recomendado para remover acentuação de palavras)
+ROUND(valor, 2)       -- faz arredondamento para o numero de casas decimais especificadas
+to_ascii(column_name) -- converte caracateres especiais em caracteres ascII básicos (recomendado para remover acentuação de palavras)
 
 ------------------------MANIPULAR SEQUENCIAS--------------------------------
 
 SELECT SETVAL('my_sequence', (SELECT MAX(my_sequence) + 1 FROM sequence_table)); -- altera sequencia com base na última sequencia
 SELECT SETVAL('my_sequence', 100); -- altera sequencia com base em valor especifico
+
+------------------------MANIPULAÇÃO DE TABELA--------------------------------
+
+ALTER TABLE table_name 
+    RENAME TO novo_table_name;              -- renomeia uma tabela
+
+    ADD PRIMARY KEY (column_name);          -- adiciona uma chave primária à tabela
+    DROP CONSTRAINT nome_da_chave_primaria; -- exclui a chave primária especificada
+
+    ADD UNIQUE (column_name);               -- adiciona regra de valor unico à tabela
+    DROP CONSTRAINT nome_unico;             -- exclui regra de valor unico à tabela
+
+    ADD CONSTRAINT fk_nome FOREIGN KEY (coluna) REFERENCES outra_tabela(coluna_referenciada); -- adiciona chave estrangeira à tabela
+    DROP CONSTRAINT fk_nome;                -- exclui chave estrangeira especificada
+
+------------------------ALTERAÇÕES NA COLUNA--------------------------------
+
+ALTER TABLE table_name 
+    RENAME COLUMN column_name TO nova_column_name;      -- renomeia uma coluna
+    ADD column_name tipo;                               -- adiciona uma nova coluna ao final da tabela
+    ALTER COLUMN column_name TYPE novo_tipo;            -- altera o tipo de dado de uma coluna
+    ALTER COLUMN column_name TYPE VARCHAR(255) USING column_name::VARCHAR(255); -- altera o tipo de dado de uma coluna quando é necessário conversão dos dados para o novo tipo
+    DROP COLUMN column_name;                            -- exlui a coluna especificada
+    ALTER COLUMN column_name SET DEFAULT valor_default; -- atribui valor default à coluna
+    ALTER COLUMN column_name DROP DEFAULT;              -- exclui valor default da coluna
+    ALTER COLUMN column_name SET NOT NULL;              -- atribui not null à coluna
+    ALTER COLUMN column_name DROP NOT NULL;             -- exclui not null da coluna
+
+------------------------EXCLUIR TABELA--------------------------------
+
+DROP TABLE IF EXISTS table_name; -- exclui uma tabela
+
+------------------------CRIAR INDICE--------------------------------
+
+CREATE INDEX nome_indice ON table_name (column_name); -- cria novo indice e atribui à coluna/tabela
+DROP INDEX nome_indice;                               -- exclui o indice especificado
