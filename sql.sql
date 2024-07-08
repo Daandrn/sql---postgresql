@@ -209,8 +209,8 @@ SELECT coluna FROM tabela2
 
 ------------------------CONCANTENAÇÃO--------------------------------
 
-CONCAT(val1, val2) -- Concatena duas ou mais strings
-valor1 || valor2   -- Concatena duas ou mais strings
+CONCAT(val1, val2, val3) -- Concatena duas ou mais strings
+valor1 || valor2         -- Concatena duas ou mais strings
 CONCAT_WS('-', coluna1, coluna2, coluna3) -- concatena as strings separando-as pela string indicada
 
 ------------------------CONVERSÃO DE TIPO--------------------------------
@@ -224,15 +224,15 @@ valor_string::int         -- converte de string para inteiro
 
 ------------------------OPERAÇÕES COM DATA--------------------------------
 
-EXTRACT(year FROM data_incio)  -- extrai o ano de uma data
-EXTRACT(month FROM data_incio) -- extrai o mês de uma data
-day, hour, minute, second
+EXTRACT('year' FROM data_incio)  -- extrai o ano de uma data: O retorno é numeric
+EXTRACT('month' FROM data_incio) -- extrai o mês de uma data: O retorno é numeric
+'day', 'hour', 'minute', 'second'
 
-DATE_PART('year', data_incio)     -- extrai o ano de uma data
-DATE_PART('month', data_incio)    -- extrai o mês de uma data
+DATE_PART('year', data_incio)     -- extrai o ano de uma data: O retorno é double precision
+DATE_PART('month', data_incio)    -- extrai o mês de uma data: O retorno é double precision
 'day', 'hour', 'minute', 'second' -- mais opções para extração
 
-to_char(data,'YYYY') --converte a parte da data especificada para string
+to_char(data,'YYYY') --converte DATE/TIMESTAMP da parte da data especificada para string
 'DD', 'MM'
 
 AGE(data_fim, data_inicio)      -- calcula a diferença entre duas datas
@@ -278,13 +278,12 @@ NOT EXISTS (SELECT 1 FROM table_name WHERE condição) -- verifica se a subconsu
 
 ------------------------LIDANDO COM NULL--------------------------------
 
-coallesce(valor1, valor2, 'padrao') -- retorna o valor padrão caso os parametros informados sejam null
-IFNULL(column_name, 'valor_padrao') -- retorna o valor padrão caso os parametros informados sejam null
+coalesce(valor1, valor2, 'padrao') -- retorna o valor padrão caso os parametros informados sejam null
 
 ------------------------FUNÇÕES--------------------------------
 
 ROUND(valor, 2)       -- faz arredondamento para o numero de casas decimais especificadas
-to_ascii(column_name) -- converte caracateres especiais em caracteres ascII básicos (recomendado para remover acentuação de palavras)
+to_ascii(column_name) -- converte caracateres especiais em caracteres asc II básicos (recomendado para remover acentuação de palavras que não sejam UTF-8)
 
 ------------------------MANIPULAR SEQUENCIAS--------------------------------
 
