@@ -257,20 +257,18 @@ MAX(column_name)   -- valor máximo da coluna
 
 ------------------------LIDANDO COM STRINGS--------------------------------
 
-LENGTH(column_name)   -- conta o tamanho da string
-UPPER(column_name)    -- converte toda string para MAIUSCULO
-LOWER(column_name)    -- converte toda string para minusculo
-TRIM(column_name)     -- remove espaços vazios do inicio e fim da string
-LTRIM(column_name)    -- remove espaços vazios do inicio da string
-RTRIM(column_name)    -- remove espaços vazios do fim da string
-LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
-LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
-LEFT(column_name, 5)  -- retorna as 5 primeiras posições da string
-RIGHT(column_name, 3) -- retorna as 3 última posições da string
+LENGTH(column_name)        -- conta o tamanho da string
+UPPER(column_name)         -- converte toda string para MAIUSCULO
+LOWER(column_name)         -- converte toda string para minusculo
+TRIM(column_name)          -- remove espaços vazios do inicio e fim da string
+LTRIM(column_name)         -- remove espaços vazios do inicio da string
+RTRIM(column_name)         -- remove espaços vazios do fim da string
+LEFT(column_name, 5)       -- retorna as 5 primeiras posições da string
+RIGHT(column_name, 3)      -- retorna as 3 última posições da string
 LPAD(column_name, 10, '0') -- completa o lado esquerdo da string até o tamanho especificado com a string indicada
 RPAD(column_name, 10, '0') -- completa o lado direito da string até o tamanho especificado com a string indicada
-REPLACE(column_name, 'substring1', 'substring2') -- reescreve parte da string para nov string
-SUBSTRING(column_name FROM posicao_inicial FOR comprimento) -- retorna uma substring a partir da posicao inicial com o tamanho informado
+REPLACE(column_name, 'substring1', 'substring2')     -- reescreve parte da string para nov string
+SUBSTRING(column_name, posicao_inicial, comprimento) -- retorna uma substring a partir da posicao inicial com o tamanho informado
 
 ------------------------OPERADORES DE SUB CONSULTAS--------------------------------
 
