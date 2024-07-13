@@ -151,6 +151,18 @@ WITH cte_exemplo AS (
 )
 SELECT * FROM cte_exemplo;
 
+------------------------TABELAS TEMPORARIAS--------------------------------
+
+CREATE TEMP TABLE table_example AS -- cria tabela temporaria com base em resultado de consulta
+SELECT column_name, column_name2 
+FROM table_name 
+WHERE column_name = foo;
+
+CREATE TEMP TABLE table_example (  -- cria tabela temporaria
+    id smallserial unique not null,
+    desc text
+);
+
 ------------------------UPDATE--------------------------------
 
 UPDATE table_name SET coluna1 = 'teste', coluna2 = valor1 WHERE id = 1; -- atualiza a coluna dos registros conforme filtros
@@ -325,3 +337,17 @@ DROP TABLE IF EXISTS table_name; -- exclui uma tabela
 
 CREATE INDEX nome_indice ON table_name (column_name); -- cria novo indice e atribui à coluna/tabela
 DROP INDEX nome_indice;                               -- exclui o indice especificado
+
+------------------------USING--------------------------------
+
+DELETE FROM employees -- delete com base em condição de outra tabela
+USING departments     -- semelhante ao join
+WHERE employees.dept_id = departments.dept_id -- no where indicar a condição de junção das tabelas
+    AND departments.dept_name = 'HR';
+
+UPDATE employees -- update com base em condição de outra tabela
+SET salary = salary * 2
+FROM departments
+USING employees  -- semelhante ao join
+WHERE employees.dept_id = departments.dept_id -- no where indicar a condição de junção das tabelas
+    AND departments.dept_name = 'Sales';
