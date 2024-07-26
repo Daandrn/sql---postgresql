@@ -256,7 +256,7 @@ now()        -- retorna data e hora atual
 CURRENT_DATE -- retorna data atual
 CURRENT_TIME -- retorna hora atual
 
-TO_TIMESTAMP(concat_ws(' ', data_coluna, hora_coluna), 'YYYY-MM-DD H:m:s') -- converte data ou hora para timestamp
+TO_TIMESTAMP(concat_ws(' ', data_coluna, hora_coluna), 'YYYY-MM-DD HH24:MI:SS') -- converte data ou hora para timestamp
 
 ------------------------FUNÇÕES DE AGREGAÇÃO--------------------------------
 
