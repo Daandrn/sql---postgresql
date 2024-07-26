@@ -240,8 +240,8 @@ EXTRACT('year' FROM data_incio)  -- extrai o ano de uma data: O retorno é numer
 EXTRACT('month' FROM data_incio) -- extrai o mês de uma data: O retorno é numeric
 'day', 'hour', 'minute', 'second'
 
-DATE_PART('year', data_incio)     -- extrai o ano de uma data: O retorno é double precision
-DATE_PART('month', data_incio)    -- extrai o mês de uma data: O retorno é double precision
+DATE_PART('year', data_incio_dateOrTimestamp)     -- extrai o ano de uma data: O retorno é double precision
+DATE_PART('month', data_incio_dateOrTimestamp)    -- extrai o mês de uma data: O retorno é double precision
 'day', 'hour', 'minute', 'second' -- mais opções para extração
 
 to_char(data,'YYYY') --converte DATE/TIMESTAMP da parte da data especificada para string
