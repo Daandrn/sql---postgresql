@@ -250,8 +250,13 @@ DATE_PART('year', data_incio_dateOrTimestamp)     -- extrai o ano de uma data: O
 DATE_PART('month', data_incio_dateOrTimestamp)    -- extrai o mês de uma data: O retorno é double precision
 'day', 'hour', 'minute', 'second' -- mais opções para extração
 
-to_char(data,'YYYY') --converte DATE/TIMESTAMP da parte da data especificada para string
+to_char(date,'YYYY') --converte DATE/TIMESTAMP da parte da data especificada para string
 'DD', 'MM'
+
+-- date_format
+to_char(date, 'DD/MM/YYYY') -- Também pode ser usado para fomatar a data
+to_char(date, 'Day, DD "de" Month YYYY')
+to_char(date, 'DD-MM-YYYY HH24:MI:SS')
 
 AGE(data_fim, data_inicio)      -- calcula a diferença entre duas datas
 data_incio + INTERVAL '1 year'  -- adiciona um intervalo de tempo a uma data/hora.
