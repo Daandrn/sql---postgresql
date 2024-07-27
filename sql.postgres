@@ -250,6 +250,8 @@ DATE_PART('year', data_incio_dateOrTimestamp)     -- extrai o ano de uma data: O
 DATE_PART('month', data_incio_dateOrTimestamp)    -- extrai o mês de uma data: O retorno é double precision
 'day', 'hour', 'minute', 'second' -- mais opções para extração
 
+to_date('01/01/2024', 'DD/MM/YY') -- converte string em date a partir do formato especificado
+
 to_char(date,'YYYY') --converte DATE/TIMESTAMP da parte da data especificada para string
 'DD', 'MM'
 
