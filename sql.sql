@@ -118,6 +118,12 @@ SELECT
         WHEN condição2 THEN resultado2
         ELSE resultado_default                 -- retorna valor padrão caso nenhuma condição seja atendida
     END
+
+    CASE table_name                            -- possibilita adicionar verificações condicionais
+        WHEN 1 THEN resultado1
+        WHEN 2 THEN resultado2
+        ELSE resultado_default                 -- retorna valor padrão caso nenhuma condição seja atendida
+    END
 FROM nome_tabela;
 
 SELECT * FROM valor_unico_na_tabela
