@@ -312,6 +312,14 @@ to_ascii(column_name) -- converte caracateres especiais em caracteres asc II bá
 
 ------------------------MANIPULAR SEQUENCIAS--------------------------------
 
+CREATE SEQUENCE my_sequence
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1   --NO MINVALUE
+MAXVALUE 100 --NO MAXVALUE 
+CACHE 1;     -- quantidade de valores a serem mantidos em cache
+
+SELECT NEXTVAL('my_sequence');
 SELECT SETVAL('my_sequence', (SELECT MAX(my_sequence) + 1 FROM sequence_table)); -- altera sequencia com base na última sequencia
 SELECT SETVAL('my_sequence', 100); -- altera sequencia com base em valor especifico
 
